@@ -1,0 +1,49 @@
+{
+  "name": "spooked-cms-template",
+  "version": "0.1.0",
+  "description": "CMS template for Node.JS",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "npm run build && ts-node ./src/index.ts",
+    "start": "node ./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielsolartech/spooked-cms-template.git"
+  },
+  "keywords": [
+    "cms",
+    "template",
+    "node.js",
+    "typescript"
+  ],
+  "author": "Daniel Solarte",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danielsolartech/spooked-cms-template/issues"
+  },
+  "homepage": "https://github.com/danielsolartech/spooked-cms-template#readme",
+  "_moduleAliases": {
+    "@Spooked": "dist/core/index.js",
+    "@Core": "dist/core",
+    "@Database": "dist/database",
+    "@Plugins": "dist/plugins",
+    "@Themes": "dist/themes"
+  },
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "express": "^4.17.1",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.10.1",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/mongoose": "^5.7.36",
+    "@types/mysql": "^2.15.15",
+    "@types/node": "^14.6.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.2"
+  }
+}
