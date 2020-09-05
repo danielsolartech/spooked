@@ -16,7 +16,7 @@ You need configure this file (Create it if is necessary).
   // Database connection
   "database": {
     // You can choose between `mysql` and `mongodb`.
-    "type": "mongodb",
+    "type": "mysql",
 
     // The host of your database.
     "host": "localhost",

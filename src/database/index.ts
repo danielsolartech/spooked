@@ -47,18 +47,18 @@ function database(settings: ISettingDatabase): DatabaseManager {
         return;
       }
 
-      if (!settings.user.length) {
-        logs.error('Database connection');
-        reject(new Error('The database username is empty.'));
-        return;
-      }
-
       if (!settings.host.length) {
         logs.warning('The database host was changed to `localhost` by default');
         settings.host = 'localhost';
       }
 
       if (settings.type === 'mysql') {
+        if (!settings.user.length) {
+          logs.error('Database connection');
+          reject(new Error('The database username is empty.'));
+          return;
+        }
+
         if (settings.port <= 0) {
           logs.warning('The database port was changed to `3306` by default');
           settings.port = 3306;
@@ -99,13 +99,19 @@ function database(settings: ISettingDatabase): DatabaseManager {
           settings.port = 27017;
         }
 
-        let connection_string: string = `mongodb://${settings.user}`;
+        let connection_string: string = `mongodb://`;
 
-        if (settings.password.length) {
-          connection_string += `:${settings.password}`;
+        if (settings.user.length) {
+          connection_string += settings.user;
+
+          if (settings.password.length) {
+            connection_string += `:${settings.password}`;
+          }
+
+          connection_string += '@';
         }
 
-        connection_string += `@${settings.host}:${settings.port}`;
+        connection_string += `${settings.host}:${settings.port}`;
 
         if (settings.name && settings.name.length) {
           connection_string += `/${settings.name}`;
