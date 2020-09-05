@@ -1,5 +1,6 @@
-# spooked-cms-template
+# SpookedCMS
 
+![Build](https://img.shields.io/github/workflow/status/danielsolartech/spooked-cms-template/Node.JS)
 [![License](https://img.shields.io/github/license/danielsolartech/spooked-cms-template)](./LICENSE)
 ![Version](https://img.shields.io/github/package-json/v/danielsolartech/spooked-cms-template)
 ![Code Size](https://img.shields.io/github/languages/code-size/danielsolartech/spooked-cms-template)
@@ -27,7 +28,7 @@ You need configure this file (Create it if is necessary).
     "user": "root",
 
     // The password of your database account.
-    "password": "daniel1",
+    "password": "",
 
     // The name of your database (OPTIONAL).
     "name": "spooked"
