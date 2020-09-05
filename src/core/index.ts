@@ -7,9 +7,21 @@
  * @format
  */
 
-import * as Path from 'path';
+import * as path from 'path';
+import settings from '@Core/settings';
+import database, { DatabaseManager } from '@Database/index';
+import logs from '@Core/logs';
 
-async function initialize(): Promise<void> {
+let databaseManager: DatabaseManager;
+
+/**
+ * Start the Spooked CMS.
+ * 
+ * @async
+ * @function
+ * @returns { Promise<void> }
+ */
+async function start(): Promise<void> {
   console.clear();
   setConsoleTitle('SpookedCMS | Loading...');
 
@@ -23,13 +35,33 @@ async function initialize(): Promise<void> {
   console.log('   \\|_________|                                                            ');
   console.log('                            © 2020 - CMS Template');
   console.log('');
+
+  try {
+    // Update settings cache.
+    settings.updateCache();
+
+    // Initialize the database manager.
+    databaseManager = database(settings.getDatabaseConfigFromCache());
+
+    // Connect to the database.
+    await databaseManager.connect();
+  } catch (error) {
+    // Check if the error is an Error object.
+    if (error instanceof Error) {
+      logs.error(error.message);
+    }
+    // Check if the error is a string.
+    else if (typeof error === 'string') {
+      logs.error(error);
+    }
+  }
 }
 
 /**
  * Get the root directory of the project.
  * @constant
  */
-const root: string = Path.dirname(Path.resolve(__dirname, '../')).replace('\\', '/');
+const root: string = path.dirname(path.resolve(__dirname, '../')).replace('\\', '/');
 
 /**
  * Change the console title.
@@ -38,7 +70,7 @@ const root: string = Path.dirname(Path.resolve(__dirname, '../')).replace('\\', 
  * @param { string } title
  * @returns { void }
  */
-function setConsoleTitle(title: string) : void {
+function setConsoleTitle(title: string): void {
   process.stdout.write(String.fromCharCode(27) + "]0;" + title + String.fromCharCode(7))
 }
 
@@ -54,12 +86,27 @@ function sleep(miliseconds: number): Promise<void> {
 }
 
 /**
+ * Get the database manager.
+ * 
+ * @function
+ * @returns { DatabaseManager }
+ */
+function getDatabase(): DatabaseManager {
+  if (databaseManager == null) {
+    throw new Error('The database manager is not initialized.');
+  }
+
+  return databaseManager;
+}
+
+/**
  * Export default values.
  * @exports
  */
 export default {
-  initialize,
+  start,
   root,
   setConsoleTitle,
   sleep,
+  getDatabase,
 };

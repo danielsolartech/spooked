@@ -8,11 +8,11 @@
  */
 
 import 'module-alias/register';
-import Spooked from '@Spooked';
-import Logs from '@Core/logs';
+import spooked from '@Spooked';
+import logs from '@Core/logs';
 
 try {
-  Spooked.initialize();
+  spooked.start();
 } catch (e) {
-  Logs.error(e);
+  logs.error(e);
 }

@@ -1,0 +1,29 @@
+name: Node.JS
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: ${{ matrix.os }} with Node.JS v${{ matrix.version }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        version: [12.x, 14.x]
+
+    steps:
+      - name: Install Node.JS v${{ matrix.version }}
+        uses: actions/setup-node@v1
+          with:
+            node-version: ${{ matrix.version }}
+
+      - uses: actions/checkout@v2
+
+      - name: Log versions
+        run: |
+          node -v
+          npm -v
+
+      - name: Build source
+        run: npm run build

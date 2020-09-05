@@ -7,7 +7,15 @@
  * @format
  */
 
-import * as Chalk from 'chalk';
+import {
+  bgBlue,
+  bgGray,
+  bgGreen,
+  bgMagenta,
+  bgRed,
+  bgYellow,
+  whiteBright,
+} from 'chalk';
 
 /**
  * Get the date information as '(day)/(month)/(year) (hours):(minutes):(seconds)'.
@@ -21,7 +29,7 @@ function getInfo(): string {
   const minutes: string = ('0' + date.getMinutes()).substr(-2);
   const seconds: string = ('0' + date.getSeconds()).substr(-2);
 
-  return Chalk.bgGray(Chalk.whiteBright(
+  return bgGray(whiteBright(
     ` ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${hours}:${minutes}:${seconds} `
   ));
 }
@@ -34,7 +42,7 @@ function getInfo(): string {
  * @returns { void }
  */
 function error(message: string): void {
-  console.log(`${getInfo() + Chalk.bgRed(Chalk.whiteBright(' ERROR '))} ${message}`);
+  console.log(`${getInfo() + bgRed(whiteBright(' ERROR '))} ${message}`);
 }
 
 /**
@@ -45,7 +53,7 @@ function error(message: string): void {
  * @returns { void }
  */
 function info(message: string): void {
-  console.log(`${getInfo() + Chalk.bgBlue(Chalk.whiteBright(' INFO '))} ${message}`);
+  console.log(`${getInfo() + bgBlue(whiteBright(' INFO '))} ${message}`);
 }
 
 /**
@@ -56,7 +64,7 @@ function info(message: string): void {
  * @returns { void }
  */
 function success(message: string): void {
-  console.log(`${getInfo() + Chalk.bgGreen(Chalk.whiteBright(' SUCCESS '))} ${message}`);
+  console.log(`${getInfo() + bgGreen(whiteBright(' SUCCESS '))} ${message}`);
 }
 
 /**
@@ -67,7 +75,7 @@ function success(message: string): void {
  * @returns { void } 
  */
 function status(message: string): void {
-  console.log(`${getInfo() + Chalk.bgMagenta(Chalk.whiteBright(' STATUS '))} ${message}`);
+  console.log(`${getInfo() + bgMagenta(whiteBright(' STATUS '))} ${message}`);
 }
 
 /**
@@ -78,7 +86,7 @@ function status(message: string): void {
  * @returns { void }
  */
 function warning(message: string): void {
-  console.log(`${getInfo() + Chalk.bgYellow(Chalk.whiteBright(' WARNING '))} ${message}`);
+  console.log(`${getInfo() + bgYellow(whiteBright(' WARNING '))} ${message}`);
 }
 
 /**

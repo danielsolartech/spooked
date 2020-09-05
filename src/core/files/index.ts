@@ -7,8 +7,8 @@
  * @format
  */
 
-import * as FS from 'fs';
-import Spooked from '@Spooked';
+import * as fs from 'fs';
+import spooked from '@Spooked';
 
 /**
  * Files interface.
@@ -113,18 +113,18 @@ interface IFiles {
    * Open a directory or file with the 'r' flag.
    * 
    * @function
-   * @returns { FS.Dir | number }
+   * @returns { fs.Dir | number }
    */
-  open(): FS.Dir | number;
+  open(): fs.Dir | number;
 
   /**
    * Open a directory or file with a flag.
    * 
    * @function
    * @param { string } flag File open flag.
-   * @returns { FS.Dir | number }
+   * @returns { fs.Dir | number }
    */
-  open(flag: string): FS.Dir | number;
+  open(flag: string): fs.Dir | number;
 
   /**
    * Read the directory or file.
@@ -178,6 +178,14 @@ interface IFiles {
    * @returns { boolean }
    */
   rename(name: string): boolean;
+
+  /**
+   * Read the current file as JSON.
+   * 
+   * @function
+   * @returns { T }
+   */
+  toJSON<T = any>(): T;
 }
 
 function files(): IFiles {
@@ -191,13 +199,13 @@ function files(): IFiles {
     getPaths: function (): string[] {
       return this.getPath().split('/');
     },
-    getFullPath: (): string => `${Spooked.root}/${general_path}`,
+    getFullPath: (): string => `${spooked.root}/${general_path}`,
     getDirectoryName,
     getFileName,
     isFile: (): boolean => getFS().isFile(),
     isDirectory: (): boolean => getFS().isDirectory(),
     exists: function (): boolean {
-      return FS.existsSync(this.getFullPath());
+      return fs.existsSync(this.getFullPath());
     },
     create,
     open,
@@ -205,6 +213,7 @@ function files(): IFiles {
     copy,
     delete: _delete,
     rename,
+    toJSON,
   };
 
   function setPath(path: string): IFiles {
@@ -212,7 +221,7 @@ function files(): IFiles {
       path = path.slice(1);
     }
 
-    path = path.replace(Spooked.root, '').replace('\\', '/');
+    path = path.replace(spooked.root, '').replace('\\', '/');
 
     if (general_path.length > 0 && !general_path.endsWith('/')) {
       general_path += `/${path}`;
@@ -230,10 +239,10 @@ function files(): IFiles {
    * 
    * @function
    * @private
-   * @returns { FS.Stats }
+   * @returns { fs.Stats }
    */
-  function getFS(): FS.Stats {
-    return FS.statSync(files_return.getFullPath());
+  function getFS(): fs.Stats {
+    return fs.statSync(files_return.getFullPath());
   }
 
   function getDirectoryName(): string {
@@ -243,7 +252,7 @@ function files(): IFiles {
 
   function getFileName(): string {
     if (!files_return.isFile()) {
-      throw new Error('The path is not a file.');
+      throw new Error(`'${files_return.getFullPath()}' is not a file`);
     }
 
     let paths: string[] = files_return.getPaths();
@@ -252,11 +261,11 @@ function files(): IFiles {
 
   function create(as_directory: boolean): boolean {
     if (files_return.exists()) {
-      throw new Error(`The ${files_return.isFile() ? 'file' : 'directory'} already exists.`);
+      throw new Error(`'${files_return.getFullPath()}' already exists`);
     }
 
     if (as_directory) {
-      FS.mkdirSync(files_return.getFullPath(), {
+      fs.mkdirSync(files_return.getFullPath(), {
         recursive: true,
       });
     } else {
@@ -266,37 +275,42 @@ function files(): IFiles {
     return true;
   }
 
-  function open(flag: string = 'r'): FS.Dir | number {
+  function open(flag: string = 'r'): fs.Dir | number {
     if (!files_return.exists()) {
-      throw new Error('The path does not exist.');
+      throw new Error(`'${files_return.getFullPath()}' does not exist`);
     }
 
     if (files_return.isDirectory()) {
-      return FS.opendirSync(files_return.getFullPath());
+      return fs.opendirSync(files_return.getFullPath());
     }
 
-    return FS.openSync(files_return.getFullPath(), flag);
+    return fs.openSync(files_return.getFullPath(), flag);
   }
 
   function read(options: any = {}): string | Buffer | string[] {
     if (!files_return.exists()) {
-      throw new Error('The path does not exist.');
+      throw new Error(`'${files_return.getFullPath()}' does not exist`);
     }
 
     if (files_return.isDirectory()) {
-      return FS.readdirSync(files_return.getFullPath());
+      return fs.readdirSync(files_return.getFullPath());
     }
 
-    return FS.readFileSync(files_return.getFullPath(), options);
+    return fs.readFileSync(files_return.getFullPath(), options);
   }
 
   function copy(to_path: string, name: string = ''): boolean {
     if (!files_return.exists()) {
-      throw new Error('The path does not exist.');
+      throw new Error(`'${files_return.getFullPath()}' does not exist`);
     }
 
     if (files_return.isDirectory()) {
-      const explore = (path: string, new_path: string, next_name: string, back: boolean = false) => {
+      const explore = (
+        path: string,
+        new_path: string,
+        next_name: string,
+        back: boolean = false,
+      ) => {
         let current_path = files().setPath(path);
         let next_path = files().setPath(new_path);
 
@@ -327,7 +341,7 @@ function files(): IFiles {
 
       explore(files_return.getPath(), to_path, name || (files_return.getDirectoryName() + '_copy'), true);
     } else {
-      FS.copyFileSync(files_return.getFullPath(), to_path);
+      fs.copyFileSync(files_return.getFullPath(), to_path);
     }
 
     return true;
@@ -335,7 +349,7 @@ function files(): IFiles {
 
   function _delete(): boolean {
     if (!files_return.exists()) {
-      throw new Error('The path does not exist.');
+      throw new Error(`'${files_return.getFullPath()}' does not exist`);
     }
 
     if (files_return.isDirectory()) {
@@ -347,7 +361,7 @@ function files(): IFiles {
 
           if (typeof dir_files === 'object' && !Buffer.isBuffer(dir_files)) {
             if (dir_files.length === 0) {
-              FS.rmdirSync(current_path.getFullPath());
+              fs.rmdirSync(current_path.getFullPath());
             } else {
               dir_files.forEach((file: any) => {
                 let next_file = files().setPath(path).file(file);
@@ -369,7 +383,7 @@ function files(): IFiles {
 
       explore(files_return.getPath());
     } else {
-      FS.unlinkSync(files_return.getFullPath());
+      fs.unlinkSync(files_return.getFullPath());
     }
 
     return true;
@@ -377,20 +391,50 @@ function files(): IFiles {
 
   function rename(name: string): boolean {
     if (!files_return.exists()) {
-      throw new Error('The path does not exist.');
+      throw new Error(`'${files_return.getFullPath()}' does not exist`);
     }
 
     if (files_return.isDirectory()) {
       const copied = files_return.copy(files_return.getPath(), name);
 
       if (copied && files_return.delete()) {
-        FS.rmdirSync(files_return.getFullPath());
+        fs.rmdirSync(files_return.getFullPath());
       }
     } else {
-      FS.renameSync(files_return.getFullPath(), `${files_return.getDirectoryName()}/${name}`);
+      fs.renameSync(files_return.getFullPath(), `${files_return.getDirectoryName()}/${name}`);
     }
 
     return true;
+  }
+
+  function toJSON<T = any>(): T {
+    if (!files_return.exists()) {
+      throw new Error(`'${files_return.getFullPath()}' does not exist`);
+    }
+
+    if (!files_return.isFile()) {
+      throw new Error(`'${files_return.getFullPath()}' is not a file`);
+    }
+
+    let content: string = '';
+    const readed = files_return.read();
+
+    if (Buffer.isBuffer(readed)) {
+      content = readed.toString();
+    } else {
+      throw new Error(`'${files_return.getFullPath()}' can not read this file`);
+    }
+
+    if (
+      !content.startsWith('{') &&
+      !content.endsWith('}') &&
+      !content.startsWith('[') &&
+      !content.endsWith(']')
+    ) {
+      throw new Error(`'${files_return.getFullPath()}' does not contain a valid JSON`);
+    }
+
+    return JSON.parse(content) as T;
   }
 
   return files_return;
