@@ -10,7 +10,7 @@ CMS Template for Node.JS
 
 ### Settings/general.json
 You need configure this file (Create it if is necessary).
-```json
+```
 {
   // Database connection
   "database": {
