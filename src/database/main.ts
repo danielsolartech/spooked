@@ -8,6 +8,7 @@
  */
 
 import { ISettingDatabase } from '@Core/settings/ISettingFile';
+import { getArguments } from '@Spooked';
 import logs from '@Core/logs';
 
 import {
@@ -28,11 +29,48 @@ export interface DatabaseManager {
    * @returns { Promise<DatabaseManager> }
    */
   connect(): Promise<DatabaseManager>;
+
+  /**
+   * Check if the current connection is a MySQL connection.
+   * 
+   * @function
+   * @returns { boolean }
+   */
+  isMySQL(): boolean;
+
+  /**
+   * Check if the current connection is a MongoDB connection.
+   * 
+   * @function
+   * @returns { boolean }
+   */
+  isMongoDB(): boolean;
+
+  /**
+   * Get the current MySQL connection.
+   * 
+   * @function
+   * @returns { MySQLConnection }
+   */
+  getMySQLConnection(): MySQLConnection;
+
+  dispose(): Promise<void>;
 }
 
-function database(settings: ISettingDatabase): DatabaseManager {
+/**
+ * Database manager.
+ * 
+ * @exports
+ * @param { ISettingDatabase } settings
+ * @returns { DatabaseManager }
+ */
+export default function database(settings: ISettingDatabase): DatabaseManager {
   const database_return: DatabaseManager = {
     connect,
+    isMySQL: (): boolean => settings.type === 'mysql',
+    isMongoDB: (): boolean => settings.type === 'mongodb',
+    getMySQLConnection,
+    dispose,
   };
 
   let mysql_connection: MySQLConnection;
@@ -48,8 +86,11 @@ function database(settings: ISettingDatabase): DatabaseManager {
       }
 
       if (!settings.host.length) {
-        logs.warning('The database host was changed to `localhost` by default');
         settings.host = 'localhost';
+
+        if (getArguments().showWarnings) {
+          logs.warning(`The database host was changed to '${settings.host}' by default`);
+        }
       }
 
       if (settings.type === 'mysql') {
@@ -60,8 +101,11 @@ function database(settings: ISettingDatabase): DatabaseManager {
         }
 
         if (settings.port <= 0) {
-          logs.warning('The database port was changed to `3306` by default');
           settings.port = 3306;
+
+          if (getArguments().showWarnings) {
+            logs.warning(`The database port was changed to '${settings.port}' by default`);
+          }
         }
 
         let connection_string: string = `mysql://${settings.user}`;
@@ -70,10 +114,10 @@ function database(settings: ISettingDatabase): DatabaseManager {
           connection_string += `:${settings.password}`;
         }
 
-        connection_string += `@${settings.host}:${settings.port}`;
+        connection_string += `@${settings.host}:${settings.port}/`;
 
         if (settings.name && settings.name.length) {
-          connection_string += `/${settings.name}`;
+          connection_string += settings.name;
         }
 
         // Create the MySQL connection.
@@ -95,8 +139,11 @@ function database(settings: ISettingDatabase): DatabaseManager {
         return;
       } else if (settings.type === 'mongodb') {
         if (settings.port <= 0) {
-          logs.warning('The database port was changed to `27017` by default');
           settings.port = 27017;
+
+          if (getArguments().showWarnings) {
+            logs.warning(`The database port was changed to '${settings.port}' by default`);
+          }
         }
 
         let connection_string: string = `mongodb://`;
@@ -121,6 +168,7 @@ function database(settings: ISettingDatabase): DatabaseManager {
         await MongoConnect(connection_string, {
           useNewUrlParser: true,
           useUnifiedTopology: true,
+          useCreateIndex: true,
         })
           .then(() => {
             logs.success('Database connected');
@@ -131,17 +179,41 @@ function database(settings: ISettingDatabase): DatabaseManager {
             reject(error.message);
           });
 
-
         return;
+      }
+    });
+  }
+
+  function getMySQLConnection(): MySQLConnection {
+    // Check if the current connection is a MySQL connection.
+    if (!database_return.isMySQL()) {
+      throw new Error('The current connection is not a MySQL connection');
+    }
+
+    // Check if the connection is not empty.
+    if (mysql_connection == null) {
+      throw new Error('You need connect to the database');
+    }
+
+    return mysql_connection;
+  }
+
+  function dispose(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (database_return.isMySQL()) {
+        database_return.getMySQLConnection().end((error) => {
+          if (error) {
+            reject(error.sqlMessage || error.message);
+            return;
+          }
+
+          resolve();
+        });
+      } else {
+        resolve();
       }
     });
   }
 
   return database_return;
 }
-
-/**
- * Export default values.
- * @exports
- */
-export default database;

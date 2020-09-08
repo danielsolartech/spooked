@@ -8,7 +8,7 @@
  */
 
 import 'module-alias/register';
-import spooked from '@Spooked';
+import * as spooked from '@Spooked';
 import logs from '@Core/logs';
 
 try {

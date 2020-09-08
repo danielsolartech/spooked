@@ -8,20 +8,19 @@
  */
 
 /* CREATE TABLE */
-CREATE TABLE IF NOT EXISTS `cms_settings` (
-  `key` VARCHAR(100) NOT NULL PRIMARY KEY UNIQUE,
-  `value` VARCHAR(255) NOT NULL,
-  `description` LONGTEXT,
+CREATE TABLE IF NOT EXISTS settings (
+  key VARCHAR(100) NOT NULL PRIMARY KEY UNIQUE,
+  value VARCHAR(255) NOT NULL,
+  description VARCHAR(1000)
 );
 
 /* TRUNCATE TABLE */
-TRUNCATE TABLE `cms_settings`;
+TRUNCATE TABLE settings;
 
 /* DEFAULT VALUES */
-INSERT INTO `cms_settings`(`key`, `value`, `description`) VALUES (
+INSERT INTO settings VALUES
   ('site.host', 'localhost', 'Host of your website.'),
   ('site.port', '3000', 'Port of your website.'),
   ('site.url', 'http://localhost:3000/', 'URL of your website with "/" at the end.'),
   ('site.name', 'SpookedCMS', 'Name of your website.'),
-  ('site.theme', 'default', 'Theme of your website.')
-);
+  ('site.theme', 'default', 'Theme of your website.');

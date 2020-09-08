@@ -7,10 +7,19 @@
 
 CMS Template for Node.JS
 
-## Getting started
+## Table of Contents
+* [Getting Started](#Getting-Started)
+  * [Setting File](#Setting-File)
+  * [Warnings](#Warnings)
+* [License](#License)
+* [Contributors](#Contributors)
 
-### Settings/general.json
-You need configure this file (Create it if is necessary).
+## Getting Started
+First, you need build the source code to use the console arguments; for this, run `npm run build` and then you can use `npm start` or `node ./dist/index.js (flags)`. 
+
+### Setting File
+You need set a settings file in the root directory, by default it must be in `/settings/general.json`, but you can put it in other rute and then use `node ./dist/index.js -s ./new_path` to set the new rute of the settings file.
+
 ```
 {
   // Database connection
@@ -35,6 +44,9 @@ You need configure this file (Create it if is necessary).
   }
 }
 ```
+
+### Warnings
+When the application set the default values in the configuration it shows you a warning to advice you about this, you can ignore this messages using the `--no-warnings` flag.
 
 ## [License](./LICENSE)
 

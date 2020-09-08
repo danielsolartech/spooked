@@ -7,7 +7,11 @@
  * @format
  */
 
-import { Schema, model, Document } from 'mongoose';
+import {
+  Document,
+  model as Model,
+  Schema,
+} from 'mongoose';
 
 /**
  * Setting document interface.
@@ -52,18 +56,22 @@ const settingSchema = new Schema({
 
 /**
  * Create the model from the settings schema.
+ * 
+ * @exports
  * @constant
  */
-const settingModel = model<ISetting>('setting', settingSchema);
+export const model = Model<ISetting>('setting', settingSchema);
 
 /**
  * Insert default values to the settings document.
- * @function
+ * 
+ * @exports
  * @async
- * @returns { Promise<Document[]> }
+ * @function
+ * @returns { Promise<ISetting[]> }
  */
-async function insert_default_values(): Promise<Document[]> {
-  return await settingModel.insertMany([
+export async function insert_default_values(): Promise<ISetting[]> {
+  return await model.insertMany([
     {
       key: 'site.host',
       value: 'localhost',
@@ -91,12 +99,3 @@ async function insert_default_values(): Promise<Document[]> {
     },
   ]);
 }
-
-/**
- * Export default values.
- * @exports
- */
-export default {
-  model: settingModel,
-  insert_default_values,
-};

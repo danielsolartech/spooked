@@ -8,7 +8,7 @@
  */
 
 import * as fs from 'fs';
-import spooked from '@Spooked';
+import { root } from '@Spooked';
 
 /**
  * Files interface.
@@ -188,7 +188,14 @@ interface IFiles {
   toJSON<T = any>(): T;
 }
 
-function files(): IFiles {
+/**
+ * Files manager.
+ * 
+ * @exports
+ * @function
+ * @returns { IFiles }
+ */
+export default function files(): IFiles {
   let general_path: string = '';
 
   const files_return: IFiles = {
@@ -199,7 +206,7 @@ function files(): IFiles {
     getPaths: function (): string[] {
       return this.getPath().split('/');
     },
-    getFullPath: (): string => `${spooked.root}/${general_path}`,
+    getFullPath: (): string => `${root}/${general_path}`,
     getDirectoryName,
     getFileName,
     isFile: (): boolean => getFS().isFile(),
@@ -221,7 +228,7 @@ function files(): IFiles {
       path = path.slice(1);
     }
 
-    path = path.replace(spooked.root, '').replace('\\', '/');
+    path = path.replace(root, '').replace('\\', '/');
 
     if (general_path.length > 0 && !general_path.endsWith('/')) {
       general_path += `/${path}`;
@@ -439,9 +446,3 @@ function files(): IFiles {
 
   return files_return;
 }
-
-/**
- * Export default values.
- * @exports
- */
-export default files;
