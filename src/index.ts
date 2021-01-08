@@ -7,12 +7,4 @@
  * @format
  */
 
-import 'module-alias/register';
-import * as spooked from '@Spooked';
-import logs from '@Core/logs';
-
-try {
-  spooked.start();
-} catch (e) {
-  logs.error(e);
-}
+export { Spooked } from './core/Spooked';

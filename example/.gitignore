@@ -2,4 +2,7 @@
 /node_modules/
 
 # Production
-/lib/
+/build/
+
+# Development
+*.env

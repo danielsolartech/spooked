@@ -1,37 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "outDir": "./dist/",
-    "rootDir": "./src/",
-    "baseUrl": "./src/",
-    "paths": {
-      "@Spooked": [
-        "core/main.ts"
-      ],
-      "@Core/*": [
-        "core/*"
-      ],
-      "@Database/*": [
-        "database/*"
-      ],
-      "@Plugins/*": [
-        "plugins/*"
-      ],
-      "@Themes/*": [
-        "themes/*"
-      ],
-    },
-  },
-  "exclude": [
-    "./node_modules/",
-    "./public/"
-  ],
-  "include": [
-    "./src/",
-  ],
+	"compilerOptions": {
+		"target": "ES6",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"esModuleInterop": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"declaration": true,
+		"outDir": "./lib/",
+		"rootDir": "./src/",
+		"baseUrl": "./src/"
+	},
+	"exclude": [
+		"./node_modules/"
+	],
+	"include": [
+		"./src/"
+	]
 }
