@@ -25,6 +25,18 @@ export interface MongoDBSettings extends RequiredDatabaseSettings {
 
 export type DatabaseSettings = MySQLSettings | MongoDBSettings;
 
+interface CorsOptions {
+    origin: string | string[];
+}
+
+export interface ServerSettings {
+    host: string;
+    port: number;
+
+    cors?: CorsOptions;
+}
+
 export interface GeneralSettings {
     database: DatabaseSettings;
+    server: ServerSettings;
 }

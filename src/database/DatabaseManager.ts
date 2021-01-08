@@ -7,7 +7,6 @@
  * @format
  */
 
-import Dependencies from "../core/Dependencies";
 import { DatabaseSettings } from "types/GeneralSettings";
 import LogsManager from "../core/LogsManager";
 import { Spooked } from "../core/Spooked";

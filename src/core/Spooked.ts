@@ -7,11 +7,14 @@
  * @format
  */
 
+import ServerManager from '../server/ServerManager';
 import DatabaseManager from '../database/DatabaseManager';
 import { GeneralSettings } from '../types/GeneralSettings';
+import { Server } from 'http';
 
 export class Spooked {
     private database: DatabaseManager;
+    private server: ServerManager;
 
     /**
      * Generate a new Spooked object.
@@ -21,10 +24,15 @@ export class Spooked {
      */
     constructor(private readonly settings: GeneralSettings) {
         this.database = new DatabaseManager(this, settings.database);
+        this.server = new ServerManager(this, settings.server);
     }
 
-    getDatabaseManager(): DatabaseManager {
+    getDatabase(): DatabaseManager {
         return this.database;
+    }
+
+    getServer(): ServerManager {
+        return this.server;
     }
 
     /**
