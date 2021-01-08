@@ -1,37 +1,25 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "outDir": "./dist/",
-    "rootDir": "./src/",
-    "baseUrl": "./src/",
-    "paths": {
-      "@Spooked": [
-        "core/main.ts"
-      ],
-      "@Core/*": [
-        "core/*"
-      ],
-      "@Database/*": [
-        "database/*"
-      ],
-      "@Plugins/*": [
-        "plugins/*"
-      ],
-      "@Themes/*": [
-        "themes/*"
-      ],
-    },
-  },
-  "exclude": [
-    "./node_modules/",
-    "./public/"
-  ],
-  "include": [
-    "./src/",
-  ],
+	"compilerOptions": {
+		"target": "ES2020",
+		"module": "CommonJS",
+		"moduleResolution": "Node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"esModuleInterop": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"outDir": "./lib/",
+		"rootDir": "./src/",
+		"baseUrl": "./src/",
+		"paths": {
+			"@Spooked": ["core/main.ts"],
+			"@Core/*": ["core/*"],
+			"@Database/*": ["database/*"],
+			"@Plugins/*": ["plugins/*"],
+			"@Themes/*": ["themes/*"]
+		},
+		"typeRoots": ["./node_modules/@types/", "./src/@types/"]
+	},
+	"exclude": ["./node_modules/", "./public/"],
+	"include": ["./src/"]
 }

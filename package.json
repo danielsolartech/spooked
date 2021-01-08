@@ -1,52 +1,50 @@
 {
-  "name": "spooked-cms-template",
-  "version": "1.0.0",
-  "description": "CMS template for Node.JS",
-  "main": "./dist/index.js",
+  "name": "spooked-cms",
+  "version": "0.1.0",
+  "description": "CMS for Node.JS",
+  "main": "./lib/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "npm run build && ts-node ./src/index.ts",
-    "start": "node ./dist/index.js"
+    "dev": "nodemon",
+    "dev:command": "npm run build && npm run start:dev",
+    "start": "node ./lib/index.js",
+    "start:dev": "ts-node ./src/index.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danielsolartech/spooked-cms-template.git"
+    "url": "git+https://github.com/danielsolartech/spooked-cms.git"
   },
   "keywords": [
     "cms",
-    "template",
     "node.js",
     "typescript"
   ],
   "author": "Daniel Solarte Chaverra",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/danielsolartech/spooked-cms-template/issues"
+    "url": "https://github.com/danielsolartech/spooked-cms/issues"
   },
-  "homepage": "https://github.com/danielsolartech/spooked-cms-template#readme",
+  "homepage": "https://github.com/danielsolartech/spooked-cms#readme",
   "engines": {
     "node": ">=12.x"
   },
-  "_moduleAliases": {
-    "@Spooked": "dist/core/main.js",
-    "@Core": "dist/core",
-    "@Database": "dist/database",
-    "@Plugins": "dist/plugins",
-    "@Themes": "dist/themes"
-  },
+  "_moduleAliases": {},
   "dependencies": {
     "chalk": "^4.1.0",
     "commander": "^6.1.0",
     "express": "^4.17.1",
     "module-alias": "^2.2.2",
     "mongoose": "^5.10.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.29"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
     "@types/mongoose": "^5.7.36",
     "@types/mysql": "^2.15.15",
     "@types/node": "^14.6.1",
+    "nodemon": "^2.0.7",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
   }
