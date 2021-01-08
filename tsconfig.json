@@ -1,25 +1,22 @@
 {
 	"compilerOptions": {
-		"target": "ES2020",
+		"target": "ES6",
 		"module": "CommonJS",
 		"moduleResolution": "Node",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"esModuleInterop": true,
-		"strict": true,
+		"noImplicitThis": true,
 		"noImplicitAny": true,
+		"declaration": true,
 		"outDir": "./lib/",
 		"rootDir": "./src/",
-		"baseUrl": "./src/",
-		"paths": {
-			"@Spooked": ["core/main.ts"],
-			"@Core/*": ["core/*"],
-			"@Database/*": ["database/*"],
-			"@Plugins/*": ["plugins/*"],
-			"@Themes/*": ["themes/*"]
-		},
-		"typeRoots": ["./node_modules/@types/", "./src/@types/"]
+		"baseUrl": "./src/"
 	},
-	"exclude": ["./node_modules/", "./public/"],
-	"include": ["./src/"]
+	"exclude": [
+		"./node_modules/"
+	],
+	"include": [
+		"./src/"
+	]
 }

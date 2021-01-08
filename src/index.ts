@@ -1,4 +1,10 @@
-import 'module-alias/register';
-import 'reflect-metadata';
+/**
+ * Copyright (c) Daniel Solarte Chaverra
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * @format
+ */
 
-console.log('Hello world!');
+export { Spooked } from './core/Spooked';
