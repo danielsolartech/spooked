@@ -1,6 +1,8 @@
 # Unreleased
 
 ## 8/1/2021
+- Add routes and controllers to server middlewares.
+- Add router decorator.
 - Add Controller decorator.
 - Add storage manager.
 - Add server manager.

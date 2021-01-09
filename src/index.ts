@@ -8,4 +8,8 @@
  */
 
 export { Spooked } from './core/Spooked';
+
 export { Controller } from './decorators/Controller';
+
+export { Route } from './decorators/Route';
+export { Request, Response } from 'express';

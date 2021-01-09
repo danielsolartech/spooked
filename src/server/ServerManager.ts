@@ -1,6 +1,6 @@
 import LogsManager from '../core/LogsManager';
 import { Spooked } from '../core/Spooked';
-import Express from 'express';
+import Express, { Router } from 'express';
 import { ServerSettings } from '../types/GeneralSettings';
 import Cors from 'cors';
 import Storage from '../core/Storage';
@@ -30,7 +30,22 @@ class ServerManager {
         }
 
         if (this.settings.controllers) {
-            this.settings.controllers.forEach((controller) => console.log(Storage.getControllerByTarget(controller)));
+            for (const controller_target of this.settings.controllers) {
+                const controller_storage = Storage.getControllerByTarget(controller_target);
+                const controller_router = Express.Router();
+
+                const routes = Storage.getRoutesByTarget(controller_target);
+                for (const route of routes) {
+                    (controller_router as any)
+                        [route.method.toLowerCase()](
+                            `/${route.name}`,
+                            (request: Express.Request, response: Express.Response) =>
+                                controller_target.prototype[route.original_name](request, response),
+                        );
+                }
+
+                this.app.use(`/${controller_storage.name}`, controller_router);
+            }
         }
     }
 

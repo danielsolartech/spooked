@@ -1,7 +1,9 @@
-import { IController } from "../types/IController";
+import IRoute from "../types/server/IRoute";
+import IController from "../types/server/IController";
 
 class Storage {
     private static controllers: IController[] = [];
+    private static routes: IRoute[] = [];
 
     static getControllerByTarget(target: Function): IController | null {
         return this.controllers.find((controller) => controller.target === target) || null;
@@ -18,6 +20,23 @@ class Storage {
 
         this.controllers.push(controller);
         return this.controllers.includes(controller);
+    }
+
+    static getRoutesByTarget(target: Function): IRoute[] {
+        return this.routes.filter((route) => route.target === target);
+    }
+
+    static getRouteByName(name: string): IRoute | null {
+        return this.routes.find((route) => route.name === name) || null;
+    }
+
+    static addRoute(route: IRoute): boolean {
+        if (this.getRouteByName(route.name) != null) {
+            return false;
+        }
+
+        this.routes.push(route);
+        return this.routes.includes(route);
     }
 }
 
