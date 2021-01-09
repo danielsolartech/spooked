@@ -34,6 +34,8 @@ export interface ServerSettings {
     port: number;
 
     cors?: CorsOptions;
+
+    controllers?: Function[];
 }
 
 export interface GeneralSettings {

@@ -1,5 +1,7 @@
 import { Spooked } from 'spooked';
 
+import UsersController from './controllers/Users';
+
 if (process.env.NODE_ENV !== 'production') {
     const dotenv = require('dotenv');
     dotenv.config();
@@ -17,6 +19,7 @@ const app = new Spooked({
     server: {
         host: process.env.SERVER_HOST || 'localhost',
         port: Number(process.env.SERVER_PORT) || 5000,
+        controllers: [UsersController],
     },
 });
 

@@ -3,13 +3,13 @@ import { Spooked } from '../core/Spooked';
 import Express from 'express';
 import { ServerSettings } from '../types/GeneralSettings';
 import Cors from 'cors';
-
+import Storage from '../core/Storage';
 class ServerManager {
     private app: Express.Express;
 
     constructor(
-        private spooked: Spooked,
-        private settings: ServerSettings,
+        private readonly spooked: Spooked,
+        private readonly settings: ServerSettings,
     ) {
         this.app = Express();
 
@@ -20,13 +20,17 @@ class ServerManager {
         if (this.settings.cors) {
             this.app.use(Cors({
                 origin: (origin, callback) => {
-                    if (this.settings.cors.origin.includes(origin)) {
+                    if (this.settings.cors.origin.includes(origin) || origin === '*') {
                         callback(null, true);
                     } else {
                         callback(new Error('Not allowed by CORS.'));
                     }
                 },
             }));
+        }
+
+        if (this.settings.controllers) {
+            this.settings.controllers.forEach((controller) => console.log(Storage.getControllerByTarget(controller)));
         }
     }
 
