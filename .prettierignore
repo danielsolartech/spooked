@@ -1,0 +1,12 @@
+*.yml
+*/node_modules/
+*.env
+*.gitignore
+
+.huskyrc
+.prettierignore
+.prettierrc
+COPYING
+
+/lib/
+/example/build/
