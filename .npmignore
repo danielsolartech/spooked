@@ -1,9 +1,0 @@
-# Node.JS
-/node_modules/
-
-# Development
-/.github/
-/src/
-.gitignore
-nodemon.json
-tsconfig.json
