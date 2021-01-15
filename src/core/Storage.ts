@@ -9,10 +9,29 @@
 
 import IRoute from '../types/server/IRoute';
 import IController from '../types/server/IController';
+import IEntity from '../types/database/IEntity';
 
 class Storage {
+	private static entities: IEntity[] = [];
+
+	static getEntityByTarget(target: Function): IEntity | null {
+		return this.entities.find((entity) => entity.target === target) || null;
+	}
+
+	static getEntityByName(name: string): IEntity | null {
+		return this.entities.find((entity) => entity.name === name) || null;
+	}
+
+	static addEntity(entity: IEntity): boolean {
+		if (this.getEntityByName(entity.name) != null) {
+			return false;
+		}
+
+		this.entities.push(entity);
+		return this.entities.includes(entity);
+	}
+
 	private static controllers: IController[] = [];
-	private static routes: IRoute[] = [];
 
 	static getControllerByTarget(target: Function): IController | null {
 		return (
@@ -37,6 +56,8 @@ class Storage {
 		this.controllers.push(controller);
 		return this.controllers.includes(controller);
 	}
+
+	private static routes: IRoute[] = [];
 
 	static getRoutesByTarget(target: Function): IRoute[] {
 		return this.routes.filter((route) => route.target === target);

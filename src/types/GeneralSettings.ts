@@ -13,6 +13,8 @@ interface RequiredDatabaseSettings {
 	username: string;
 	password: string;
 	name: string;
+
+	entities?: Function[];
 }
 
 export interface MySQLSettings extends RequiredDatabaseSettings {

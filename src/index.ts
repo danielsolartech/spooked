@@ -7,9 +7,15 @@
  * @format
  */
 
+// Core
 export { Spooked } from './core/Spooked';
 
-export { Controller } from './decorators/server/Controller';
+// Database decorators
+export { Entity } from './decorators/database/Entity';
 
+// Server decorators
+export { Controller } from './decorators/server/Controller';
 export { Route } from './decorators/server/Route';
+
+// Server interfaces
 export { Request, Response } from 'express';
