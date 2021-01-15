@@ -7,7 +7,7 @@
  * @format
  */
 
-import Storage from '../core/Storage';
+import Storage from '../../core/Storage';
 
 export function Controller(name?: string): ClassDecorator {
 	return function (target) {

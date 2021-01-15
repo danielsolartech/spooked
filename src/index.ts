@@ -9,7 +9,7 @@
 
 export { Spooked } from './core/Spooked';
 
-export { Controller } from './decorators/Controller';
+export { Controller } from './decorators/server/Controller';
 
-export { Route } from './decorators/Route';
+export { Route } from './decorators/server/Route';
 export { Request, Response } from 'express';

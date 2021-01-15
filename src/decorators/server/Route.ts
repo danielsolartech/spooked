@@ -7,8 +7,8 @@
  * @format
  */
 
-import Storage from '../core/Storage';
-import { RouteMethod } from '../types/server/IRoute';
+import Storage from '../../core/Storage';
+import { RouteMethod } from '../../types/server/IRoute';
 
 export function Route(method: RouteMethod, name?: string): PropertyDecorator {
 	return function (object: Object, propertyKey: string) {
