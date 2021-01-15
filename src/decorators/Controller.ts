@@ -1,21 +1,21 @@
 /**
  * Copyright (c) Daniel Solarte Chaverra
  *
- * This source code is licensed under the MIT license found in the
+ * This source code is licensed under the GPL-2.0 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  * @format
  */
 
-import Storage from "../core/Storage";
+import Storage from '../core/Storage';
 
 export function Controller(name?: string): ClassDecorator {
-    return function (target) {
-        name = name?.toLowerCase() ?? target.name.toLowerCase();
+	return function (target) {
+		name = name?.toLowerCase() ?? target.name.toLowerCase();
 
-        Storage.addController({
-            target,
-            name,
-        });
-    };
+		Storage.addController({
+			target,
+			name,
+		});
+	};
 }
