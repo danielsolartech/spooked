@@ -1,6 +1,8 @@
 name: Node.JS
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
   build:
@@ -9,8 +11,13 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        version: [12.x, 14.x]
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        version:
+          - 12.x
+          - 14.x
 
     steps:
       - name: Install Node.JS v${{ matrix.version }}
@@ -29,4 +36,4 @@ jobs:
         run: npm install
 
       - name: Build source
-        run: npm run build --if-present
+        run: npm run build
