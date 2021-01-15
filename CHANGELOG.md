@@ -2,6 +2,8 @@
 
 ## 15/1/2021
 
+-   Add database entities.
+-   Move server decorators.
 -   Add authors.
 -   Add publish workflow.
 -   Add husky and prettier.
