@@ -1,10 +1,5 @@
 # SpookedCMS
 
-![Build](https://img.shields.io/github/workflow/status/danielsolartech/spooked/Node.JS)
-[![License](https://img.shields.io/github/license/danielsolartech/spooked)](./LICENSE)
-![Version](https://img.shields.io/github/package-json/v/danielsolartech/spooked)
-![Code Size](https://img.shields.io/github/languages/code-size/danielsolartech/spooked)
-
 ## Install
 
 You can install `spooked` to your project using the command below:
